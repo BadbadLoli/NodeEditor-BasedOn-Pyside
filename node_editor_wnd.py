@@ -2,7 +2,7 @@ from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
-from node_graphics_scene import QDMGraphicsScene
+from node_scene import Scene
 from node_graphics_view import QDMGraphicsView
 
 class NodeEditorWnd(QWidget):
@@ -20,7 +20,8 @@ class NodeEditorWnd(QWidget):
         self.setLayout(self.layout)
 
         # crate graphics scene
-        self.grScene = QDMGraphicsScene()
+        self.scene = Scene()
+        self.grScene = self.scene.grScene
 
         # create graphics view
         self.view = QDMGraphicsView(self.grScene, self)
