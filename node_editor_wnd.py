@@ -3,6 +3,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 from node_scene import Scene
+from node_node import Node
 from node_graphics_view import QDMGraphicsView
 
 class NodeEditorWnd(QWidget):
@@ -21,16 +22,18 @@ class NodeEditorWnd(QWidget):
 
         # crate graphics scene
         self.scene = Scene()
-        self.grScene = self.scene.grScene
+        # self.grScene = self.scene.grScene
+
+        node = Node(self.scene, "My Awesome Node")
 
         # create graphics view
-        self.view = QDMGraphicsView(self.grScene, self)
+        self.view = QDMGraphicsView(self.scene.grScene, self)
         self.layout.addWidget(self.view)
 
         self.setWindowTitle("Node Editor")
         self.show()
 
-        self.addDebugContent()
+        # self.addDebugContent()
 
     def addDebugContent(self):
         greenBrush = QBrush(Qt.green)
