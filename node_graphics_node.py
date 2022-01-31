@@ -4,8 +4,11 @@ from PySide2.QtGui import *
 
 
 class QDMGraphicsNode(QGraphicsItem):
-    def __init__(self, node, title='Node Graphics Item', parent=None, *args, **kwargs):
-        super().__init__(parent, *args, **kwargs)
+    def __init__(self, node, parent=None, *args, **kwargs):
+        super().__init__(parent)
+
+        self.node = node
+        self.content = self.node.content
 
         self._title_color = Qt.white
         self._title_font = QFont("Ubuntu", 10)
@@ -23,8 +26,14 @@ class QDMGraphicsNode(QGraphicsItem):
         self._brush_title = QBrush(QColor("#FF313131"))
         self._brush_background = QBrush(QColor("#E3212121"))
 
+        # init title
         self.initTitle()
-        self.title = title
+        self.title = self.node.title
+
+        # init sockets
+
+        # init content
+        self.initContent()
 
         self.initUI()
 
@@ -55,6 +64,13 @@ class QDMGraphicsNode(QGraphicsItem):
     def title(self, value):
         self._title = value
         self.title_item.setPlainText(self._title)
+
+    def initContent(self):
+        self.grContent = QGraphicsProxyWidget(self)
+        self.content.setGeometry(self.edge_size, self.title_height + self.edge_size,
+                                 self.width - 2 * self.edge_size,
+                                 self.height - 2 * self.edge_size - self.title_height)
+        self.grContent.setWidget(self.content)
 
     def paint(self, painter, option, widget, PySide2_QtWidgets_QWidget=None, *args, **kwargs):
         #title
