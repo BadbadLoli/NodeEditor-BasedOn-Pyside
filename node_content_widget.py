@@ -1,8 +1,10 @@
 from PySide2.QtWidgets import *
+from PySide2.QtGui import *
 
 
 class QDMNodeContentWidget(QWidget):
-    def __init__(self):
+    def __init__(self, node):
+        self.node = node
         super().__init__()
 
         self.initUI()
@@ -14,4 +16,16 @@ class QDMNodeContentWidget(QWidget):
 
         self.wdg_label = QLabel("Some Title")
         self.layout.addWidget(self.wdg_label)
-        self.layout.addWidget(QTextEdit("foo"))
+        self.layout.addWidget(QDMTextEdit("foo"))
+
+    def setEditingFlag(self, value):
+        self.node.scene.grScene.views()[0].editingFlag = value
+
+class QDMTextEdit(QTextEdit):
+    def focusInEvent(self, event:QFocusEvent) -> None:
+        self.parentWidget().setEditingFlag(True)
+        super().focusInEvent(event)
+
+    def focusOutEvent(self, event:QFocusEvent) -> None:
+        self.parentWidget().setEditingFlag(False)
+        super().focusOutEvent(event)
