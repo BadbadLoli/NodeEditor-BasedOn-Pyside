@@ -1,8 +1,10 @@
+from collections import OrderedDict
+from node_serializable import Serializable
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
 
-class QDMNodeContentWidget(QWidget):
+class QDMNodeContentWidget(QWidget, Serializable):
     def __init__(self, node):
         self.node = node
         super().__init__()
@@ -20,6 +22,14 @@ class QDMNodeContentWidget(QWidget):
 
     def setEditingFlag(self, value):
         self.node.scene.grScene.views()[0].editingFlag = value
+
+    def serialize(self):
+        return OrderedDict([
+
+        ])
+
+    def deserialize(self, data, hashmap={}):
+        return False
 
 class QDMTextEdit(QTextEdit):
     def focusInEvent(self, event:QFocusEvent) -> None:
