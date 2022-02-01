@@ -56,3 +56,4 @@ class Node():
         for socket in self.inputs + self.outputs:
             if socket.hasEdge():
                 socket.edge.updatePositions()
+
