@@ -28,6 +28,7 @@ class QDMGraphicsView(QGraphicsView):
 
         self.mode = MODE_NOOP
         self.editingFlag = False
+        self.rubberBandDraggingRectangle = False
 
         self.zoomInFactor = 1.25
         self.zoomClamp = True
@@ -122,6 +123,8 @@ class QDMGraphicsView(QGraphicsView):
                 super().mouseReleaseEvent(fakeEvent)
                 QApplication.setOverrideCursor(Qt.CrossCursor)
                 return
+            else:
+                self.rubberBandDraggingRectangle = True
 
         super().mousePressEvent(event)
 
@@ -152,8 +155,9 @@ class QDMGraphicsView(QGraphicsView):
             self.mode = MODE_NOOP
             return
 
-        if self.dragMode() == QGraphicsView.RubberBandDrag:
+        if self.rubberBandDraggingRectangle:
             self.grScene.scene.history.storeHistory("Selection changed")
+            self.rubberBandDraggingRectangle = False
 
         super().mouseReleaseEvent(event)
 
@@ -231,7 +235,7 @@ class QDMGraphicsView(QGraphicsView):
             for edge in self.grScene.scene.edges:
                 if edge.grEdge.intersectsWith(p1, p2):
                     edge.remove()
-        self.grScene.scene.history.storeHistory("Delete cutted edges")
+        self.grScene.scene.history.storeHistory("Delete cutted edges", setModified=True)
 
     def deleteSelected(self):
         for item in self.grScene.selectedItems():
@@ -239,7 +243,7 @@ class QDMGraphicsView(QGraphicsView):
                 item.edge.remove()
             elif hasattr(item, 'node'):
                 item.node.remove()
-        self.grScene.scene.history.storeHistory("Delete selected")
+        self.grScene.scene.history.storeHistory("Delete selected", setModified=True)
 
     def debug_modifiers(self, event):
         out = "MODS: "
@@ -280,7 +284,7 @@ class QDMGraphicsView(QGraphicsView):
                 self.dragEdge.end_socket.setConnectedEdge(self.dragEdge)
                 if DEBUG: print('View::edgeDragEnd ~  reassigned start & end sockets to drag edge')
                 self.dragEdge.updatePositions()
-                self.grScene.scene.history.storeHistory("Created new edge by dragging")
+                self.grScene.scene.history.storeHistory("Created new edge by dragging", setModified=True)
                 return True
 
         if DEBUG: print('View::edgeDragEnd ~ End dragging edge')
