@@ -17,13 +17,9 @@ class Edge(Serializable):
         self.edge_type = edge_type
 
         self.scene.addEdge(self)
-        if self.end_socket is not None:
-            self.end_socket.edge = self
 
-        self.scene.grScene.addItem(self.grEdge)
-
-        if self.start_socket is not None:
-            self.updatePositions()
+    def __str__(self):
+        return "<Edge %s..%s>" % (hex(id(self))[2:5], hex(id(self))[-3:])
 
     @property
     def start_socket(self): return self._start_socket
@@ -55,6 +51,12 @@ class Edge(Serializable):
             self.grEdge = QDMGraphicsEdgeBezier(self)
         else:
             self.grEdge = QDMGraphicsEdgeBezier(self)
+
+        self.scene.grScene.addItem(self.grEdge)
+
+        if self.start_socket is not None:
+            self.updatePositions()
+
 
     def updatePositions(self):
         source_pos = self.start_socket.getSocketPosition()
