@@ -11,7 +11,7 @@ class QDMGraphicsNode(QGraphicsItem):
         self.content = self.node.content
 
         self._title_color = Qt.white
-        self._title_font = QFont("Ubuntu", 10)
+        self._title_font = QFont("", 10)
 
 
         self.width = 180

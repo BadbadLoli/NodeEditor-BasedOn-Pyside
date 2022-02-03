@@ -1,6 +1,6 @@
 import sys
 from PySide2.QtWidgets import *
-from node_editor_window import NodeEditorWindow
+from nodeeditor.node_editor_window import NodeEditorWindow
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

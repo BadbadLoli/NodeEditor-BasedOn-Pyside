@@ -1,10 +1,10 @@
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
-from node_scene import Scene
-from node_node import Node
-from node_edge import Edge, EDGE_TYPE_BEZIER
-from node_graphics_view import QDMGraphicsView
+from nodeeditor.node_scene import Scene
+from nodeeditor.node_node import Node
+from nodeeditor.node_edge import Edge, EDGE_TYPE_BEZIER
+from nodeeditor.node_graphics_view import QDMGraphicsView
 
 class NodeEditorWidget(QWidget):
     def __init__(self, parent=None):

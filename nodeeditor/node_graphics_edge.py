@@ -3,7 +3,7 @@ from PySide2.QtWidgets import *
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 
-from node_socket import *
+from nodeeditor.node_socket import *
 
 EDGE_CP_ROUNDNESS = 100
 

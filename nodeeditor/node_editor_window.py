@@ -1,7 +1,7 @@
 import os
 import json
 from PySide2.QtWidgets import *
-from node_editor_widget import NodeEditorWidget
+from nodeeditor.node_editor_widget import NodeEditorWidget
 
 class NodeEditorWindow(QMainWindow):
     def __init__(self):
