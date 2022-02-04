@@ -1,3 +1,4 @@
+import os
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
@@ -12,6 +13,8 @@ class NodeEditorWidget(QWidget):
 
         self.stylesheet_filename = 'qss/nodestyle.qss'
         self.loadStylesheet(self.stylesheet_filename)
+
+        self.filename = None
 
         self.initUI()
 
@@ -30,6 +33,17 @@ class NodeEditorWidget(QWidget):
         # create graphics view
         self.view = QDMGraphicsView(self.scene.grScene, self)
         self.layout.addWidget(self.view)
+
+    def isModified(self):
+        return self.scene.has_been_modified
+
+    def isFilenameSet(self):
+        return self.filename is not None
+
+    def getUserFriendlyFilename(self):
+        name = os.path.basename(self.filename) if self.isFilenameSet() else "New Graph"
+        return name + ("*" if self.isModified() else "")
+
 
     def addNodes(self):
         node1 = Node(self.scene, "My Awesome Node 1", inputs=[0, 0, 0], outputs=[1])
