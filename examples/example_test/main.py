@@ -3,6 +3,8 @@ import sys
 from PySide2.QtWidgets import *
 import inspect
 
+sys.path.insert(0, os.path.join( os.path.dirname(__file__), "..", ".." ))
+
 from nodeeditor.utils import loadStylesheet
 from nodeeditor.node_editor_window import NodeEditorWindow
 

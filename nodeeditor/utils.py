@@ -1,7 +1,9 @@
 import traceback
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
+from pprint import PrettyPrinter
 
+pp = PrettyPrinter(indent=4).pprint
 
 def dumpException(e):
     print("EXCEPTiON:", e)
