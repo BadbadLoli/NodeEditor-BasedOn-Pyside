@@ -1,16 +1,26 @@
+import os
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtGui import *
 
+from nodeeditor.utils import loadStylesheets
 from nodeeditor.node_editor_window import NodeEditorWindow
 from examples.example_calculator.calc_sub_window import CalculatorSubWindow
 from nodeeditor.utils import dumpException
+
+# images for the dark skin
 
 class CalculatorWindow(NodeEditorWindow):
 
     def initUI(self):
         self.name_company = 'LRChong'
         self.name_product = 'Calculator NodeEditor'
+
+        self.stylesheet_filename = os.path.join(os.path.dirname(__file__), 'qss/nodeeditor.qss')
+        loadStylesheets(
+            os.path.join(os.path.dirname(__file__), 'qss/nodeeditor-dark.qss'),
+            self.stylesheet_filename
+        )
 
         self.mdiArea = QMdiArea()
         self.mdiArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
