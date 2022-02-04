@@ -107,8 +107,7 @@ class NodeEditorWindow(QMainWindow):
 
     def onFileNew(self):
         if self.maybeSave():
-            self.getCurrentNodeEditorWidget().scene.clear()
-            self.filename = None
+            self.getCurrentNodeEditorWidget().fileNew()
             self.setTitle()
 
     def onFileOpen(self):
@@ -122,17 +121,19 @@ class NodeEditorWindow(QMainWindow):
                 self.setTitle()
 
     def onFileSave(self):
-        if self.filename is None: return self.onFileSaveAs()
-        self.getCurrentNodeEditorWidget().scene.saveToFile(self.filename)
-        self.statusBar().showMessage('Successfully saved %s' % self.filename)
+        if self.getCurrentNodeEditorWidget().filename is None: return self.onFileSaveAs()
+        self.getCurrentNodeEditorWidget().fileSave()
+        self.statusBar().showMessage('Successfully saved %s' % self.getCurrentNodeEditorWidget().filename)
+        self.setTitle()
         return True
 
     def onFileSaveAs(self):
         fname, filter = QFileDialog.getSaveFileName(self, 'Save graph to file')
         if fname == '':
             return False
-        self.filename = fname
-        self.onFileSave()
+        self.getCurrentNodeEditorWidget().fileSave(fname)
+        self.statusBar().showMessage('Successfully saved as %s' % self.getCurrentNodeEditorWidget().filename)
+        self.setTitle()
         return True
 
     def onEditUndo(self):

@@ -1,11 +1,15 @@
+import os
 import json
 from collections import OrderedDict
+from nodeeditor.utils import dumpException
 from nodeeditor.node_serializable import Serializable
 from nodeeditor.node_graphics_scene import QDMGraphicsScene
 from nodeeditor.node_node import Node
 from nodeeditor.node_edge import Edge
 from nodeeditor.node_scene_history import SceneHistory
 from nodeeditor.node_scene_clipboard import SceneClipboard
+
+class InvalidFile(Exception): pass
 
 class Scene(Serializable):
     def __init__(self):
@@ -76,10 +80,15 @@ class Scene(Serializable):
     def loadFromFile(self, filename):
         with open(filename, "r") as file:
             raw_data = file.read()
-            data = json.loads(raw_data, encoding='utf-8')
-            self.deserialize(data)
+            try:
+                data = json.loads(raw_data, encoding='utf-8')
+                self.deserialize(data)
 
-            self.has_been_modified = False
+                self.has_been_modified = False
+            except json.JSONDecodeError:
+                raise InvalidFile('%s is not a valid JSON file' % os.path.basename(filename))
+            except Exception as e:
+                dumpException(e)
 
     def serialize(self):
         nodes, edges = [], []
